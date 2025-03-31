@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from "react";
+import SideBar from "./components/SideBar"
+import TaskList from "./components/TaskList";
+import TaskForm from "./components/TaskForm";
+import "./styles.css";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <SideBar></SideBar>
+      <main className="main-content">
+        <h1>Günlük Görevler</h1>
+        <TaskForm />
+        <TaskList />
+      </main>
     </div>
-  );
-}
-
+  )
+  }
 export default App;
