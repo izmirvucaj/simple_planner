@@ -1,22 +1,25 @@
-/* Sayfanın tamamını kaplayan temel düzen */
+/* Sayfa genel düzeni */
 .app-container {
-    display: flex;
-    height: 100vh; /* Tüm ekranı kaplasın */
-  }
-  
-  /* Sidebar için alan ayır */
-  .sidebar {
-    width: 250px;
-    background: #2c3e50;
-    color: white;
-    padding: 20px;
-  }
-  
-  /* Ana içerik alanı */
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    background: #ecf0f1;
-    overflow-y: auto; /* İçerik fazla olursa kaydırma ekle */
-  }
-  
+  display: flex;
+  height: 100vh; /* Ekran yüksekliği kadar uzasın */
+}
+
+/* Sidebar için alan */
+.sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  height: 100vh; /* Side bar sayfa boyunca uzanacak */
+  position: fixed; /* Sidebar'ı sabitle */
+}
+
+/* Ana içerik alanı */
+.main-content {
+  flex: 1;
+  margin-left: 250px; /* Sidebar'ı geçmek için margin ekleyelim */
+  padding: 20px;
+  background: #ecf0f1;
+  height: 100vh;
+  overflow-y: auto; /* İçerik uzun olursa kaydırma eklesin */
+}

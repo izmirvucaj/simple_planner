@@ -1,14 +1,23 @@
 import React from "react";
-import "./SideBar.css"; // Stil dosyasını ekledik
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./SideBar.css";
 
 function Sidebar() {
   return (
-    <div className="sidebar">
-      <h2>Planlayıcı</h2>
-      <ul>
-        <li>📅 Takvim</li>
-        <li>⏳ Pomodoro</li>
-        <li>📊 İstatistikler</li>
+    <div className="sidebar bg-dark text-white p-4" style={{ width: "250px" }}>
+      <h2 className="text-center mb-4">Planlayıcı</h2>
+      <ul className="list-unstyled">
+        <li className="sidebar-item p-3 rounded">
+          <Link to="/calendar" className="text-white text-decoration-none">
+            📅 Takvim
+          </Link>
+        </li>
+        <li className="sidebar-item p-3 rounded">
+          <Link to="/" className="text-white text-decoration-none">
+            📋 Görevler
+          </Link>
+        </li>
       </ul>
     </div>
   );

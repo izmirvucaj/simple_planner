@@ -1,18 +1,28 @@
 import React from "react";
-import SideBar from "./components/SideBar"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/SideBar";
 import TaskList from "./components/TaskList";
-import TaskForm from "./components/TaskForm";
+import TaskCalendar from "./components/TaskCalendar"; // Takvim bileşenini doğru içe aktardık
+
 import "./styles.css";
+
 function App() {
   return (
-    <div className="app-container">
-      <SideBar></SideBar>
-      <main className="main-content">
-        <h1>Günlük Görevler</h1>
-        <TaskForm />
-        <TaskList />
-      </main>
-    </div>
-  )
-  }
+    <Router>
+      <div className="app-container">
+        
+        <Sidebar />
+        
+      
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<TaskList />} />
+            <Route path="/calendar" element={<TaskCalendar />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+}
+
 export default App;
