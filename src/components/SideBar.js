@@ -18,6 +18,11 @@ function Sidebar() {
             📋 Görevler
           </Link>
         </li>
+        <li className="sidebar-item p-3 rounded">
+          <Link to="/pomodoro" className="text-white text-decoration-none">
+          ⏱️ Pomodoro
+          </Link>
+        </li>
       </ul>
     </div>
   );

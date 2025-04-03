@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/SideBar";
 import TaskList from "./components/TaskList";
 import TaskCalendar from "./components/TaskCalendar"; // Takvim bileşenini doğru içe aktardık
-
 import "./styles.css";
+import Pomodoro from "./components/Pomodoro";
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<TaskList />} />
             <Route path="/calendar" element={<TaskCalendar />} />
+            <Route path="/pomodoro" element={<Pomodoro />} />
           </Routes>
         </main>
       </div>
