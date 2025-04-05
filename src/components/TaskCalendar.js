@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Calendar, Badge, Modal, Input, Button } from "antd";
-import dayjs from "dayjs";
 import "antd/dist/reset.css";
 import "./TaskCalendar.css";
 

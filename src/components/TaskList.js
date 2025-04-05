@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./TaskList.css"; // Stil dosyasını ekledik
 
 function TaskList() {
-  const tasks = [
-    { id: 1, title: "React çalış", completed: false },
-    { id: 2, title: "Spor yap", completed: true },
-  ];
+  // State oluşturuyoruz
+  const [tasks, setTasks] = useState([]);
+  
+  // Veriyi backend'ten almak için useEffect kullanıyoruz
+  useEffect(() => {
+    axios.get("http://localhost:5000/tasks") // Backend API URL
+      .then((response) => {
+        setTasks(response.data); // Veriyi state'e kaydediyoruz
+      })
+      .catch((error) => {
+        console.error("Error fetching tasks:", error); // Hata kontrolü
+      });
+  }, []); // Component mount olduğunda bir kez çalışacak
 
   return (
     <div className="task-list">
