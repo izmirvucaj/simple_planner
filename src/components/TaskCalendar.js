@@ -11,18 +11,26 @@ function TaskCalendar() {
   const [noteText, setNoteText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
-  // Verileri backend'den çekme fonksiyonu
+  // Helper function to format date as YYYY-MM-DD (timezone-safe)
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // Fetch notes from backend
   const fetchNotes = () => {
     axios.get("http://localhost:5001/tasks")
       .then(response => {
-        console.log("Fetched tasks:", response.data);
         const tasks = response.data.reduce((acc, task) => {
-          // Tarih formatını "YYYY-MM-DD" formatına çevir
-          const formattedDate = new Date(task.due_date).toISOString().split("T")[0];
+          // Use the helper function to ensure consistent date format
+          const formattedDate = formatDate(task.due_date);
           acc[formattedDate] = task.note;
           return acc;
         }, {});
-        console.log("Updated notes:", tasks); // Güncellenen notes
         setNotes(tasks);
       })
       .catch(error => {
@@ -30,76 +38,59 @@ function TaskCalendar() {
       });
   };
 
-  // Component mount olduğunda verileri çek
   useEffect(() => {
-    fetchNotes(); // Sayfa yüklendiğinde verileri al
-  }, []); // Boş array, sadece ilk render'da çalışır
+    fetchNotes();
+  }, []);
 
-  // Tarih seçildiğinde
+  // Handle date selection
   const onSelect = (date) => {
     const formattedDate = date.format("YYYY-MM-DD");
     setSelectedDate(formattedDate);
     setNoteText(notes[formattedDate] || "");
     setModalVisible(true);
-
-    if (notes[formattedDate]) {
-      setIsEditing(false);
-    } else {
-      setIsEditing(true);
-    }
+    setIsEditing(!notes[formattedDate]);
   };
 
-  // Notu kaydet
+  // Save or update note
   const saveNote = () => {
-    if (noteText.trim()) {
-      if (isEditing) {
-        axios.post("http://localhost:5001/tasks", {
-          note: noteText,
-          due_date: selectedDate, // Zaten YYYY-MM-DD formatında olduğu için burada herhangi bir işlem gerekmez
-        })
-          .then(() => {
-            fetchNotes(); // Yeni veriyi çek
-            setModalVisible(false);
-            setIsEditing(false);
-          })
-          .catch((error) => {
-            console.error("Error saving note:", error);
-          });
-      } else {
-        axios.put(`http://localhost:5001/tasks/${selectedDate}`, {
-          note: noteText,
-        })
-          .then(() => {
-            fetchNotes(); // Yeni veriyi çek
-            setModalVisible(false);
-          })
-          .catch((error) => {
-            console.error("Error updating note:", error);
-          });
-      }
-    }
+    if (!noteText.trim() || !selectedDate) return;
+
+    const payload = {
+      note: noteText,
+      due_date: selectedDate // Already in YYYY-MM-DD format
+    };
+
+    const request = notes[selectedDate] 
+      ? axios.put(`http://localhost:5001/tasks/${selectedDate}`, payload)
+      : axios.post("http://localhost:5001/tasks", payload);
+
+    request
+      .then(() => {
+        fetchNotes();
+        setModalVisible(false);
+        setIsEditing(false);
+      })
+      .catch(error => {
+        console.error("Error saving note:", error);
+      });
   };
 
-  // Notu sil
+  // Delete note
   const deleteNote = () => {
     axios.delete(`http://localhost:5001/tasks/${selectedDate}`)
       .then(() => {
-        fetchNotes(); // Yeni veriyi çek
+        fetchNotes();
         setModalVisible(false);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error deleting note:", error);
       });
   };
 
-  // Düzenleme modunu aç
-  const enableEditing = () => {
-    setIsEditing(true);
-  };
-
-  // Takvim hücrelerinde not varsa göster
+  // Calendar cell renderer
   const cellRender = (value) => {
-    const note = notes[value.format("YYYY-MM-DD")];
+    const dateStr = value.format("YYYY-MM-DD");
+    const note = notes[dateStr];
     return note ? (
       <div>
         <Badge color="green" />
@@ -116,17 +107,17 @@ function TaskCalendar() {
       <Calendar onSelect={onSelect} cellRender={cellRender} />
 
       <Modal
-        title={`${selectedDate || ""} `}
+        title={`${selectedDate || ""}`}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={[
           !isEditing && hasNote ? (
-            <Button key="edit" type="primary" onClick={enableEditing}>
-              Update
+            <Button key="edit" type="primary" onClick={() => setIsEditing(true)}>
+              Edit
             </Button>
           ) : (
             <Button key="save" type="primary" onClick={saveNote}>
-              {hasNote ? "Kaydet" : "Ekle"}
+              {hasNote ? "Update" : "Add"}
             </Button>
           ),
           hasNote && (
@@ -143,9 +134,9 @@ function TaskCalendar() {
           rows={4}
           value={noteText}
           onChange={(e) => setNoteText(e.target.value)}
-          placeholder="Bugün için notunuzu girin..."
-          disabled={!isEditing && hasNote} // Not varsa ve düzenleme modunda değilse disabled
-          autoFocus={isEditing} // Sadece düzenleme modunda odaklansın
+          placeholder="Enter your note for today..."
+          disabled={!isEditing && hasNote}
+          autoFocus={isEditing}
         />
       </Modal>
     </div>
