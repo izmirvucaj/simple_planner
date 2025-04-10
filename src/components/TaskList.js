@@ -3,19 +3,24 @@ import axios from "axios";
 import "./TaskList.css"; // Stil dosyasını ekledik
 
 function TaskList() {
-  // State oluşturuyoruz
   const [tasks, setTasks] = useState([]);
-  
-  // Veriyi backend'ten almak için useEffect kullanıyoruz
+
   useEffect(() => {
-    axios.get("http://localhost:5000/tasks") // Backend API URL
+    // Backend'den görevleri çekme
+    axios
+      .get("http://localhost:5001/tasks")
       .then((response) => {
-        setTasks(response.data); // Veriyi state'e kaydediyoruz
+        // Veriyi düzenle
+        const updatedTasks = response.data.map((task) => ({
+          ...task,
+          completed: task.completed === 1, // 0 veya 1'den boolean'a dönüşüm
+        }));
+        setTasks(updatedTasks); // Veriyi state'e al
       })
       .catch((error) => {
-        console.error("Error fetching tasks:", error); // Hata kontrolü
+        console.error("Error fetching tasks:", error);
       });
-  }, []); // Component mount olduğunda bir kez çalışacak
+  }, []);
 
   return (
     <div className="task-list">
@@ -23,7 +28,8 @@ function TaskList() {
       <ul>
         {tasks.map((task) => (
           <li key={task.id} className={task.completed ? "completed" : ""}>
-            {task.title}
+            <strong>{task.title}</strong>
+            {task.note && <p className="note">{task.note}</p>} {/* Notu göster */}
           </li>
         ))}
       </ul>
