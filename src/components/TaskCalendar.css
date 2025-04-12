@@ -1,32 +1,102 @@
-/* TaskCalendar.css */
-
 .task-calendar-container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  
-  .calendar-card {
-    margin-top: 20px;
-  }
-  
-  .note-preview {
-    color: #333;
-    cursor: pointer;
-    padding: 5px;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-    margin-top: 5px;
-  }
-  
-  .note-preview:hover {
-    background-color: #e0e0e0;
-  }
-  
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.calendar-header {
+  text-align: center;
+  color: #1890ff;
+  margin-bottom: 20px;
+}
+
+.calendar-wrapper {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.note-preview {
+  font-size: 12px;
+  color: #666;
+}
+
+.notes-modal .ant-modal-body {
+  padding: 20px;
+}
+
+.notes-content {
+  display: flex;
+  gap: 20px;
+}
+
+.existing-notes-section {
+  flex: 1;
+}
+
+.add-note-section {
+  flex: 1;
+}
+
+.section-title {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.notes-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.note-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.note-content {
+  white-space: pre-wrap;
+}
+
+.note-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.empty-notes {
+  text-align: center;
+  color: #888;
+  padding: 20px 0;
+}
+
+.note-input {
+  margin-bottom: 15px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.edit-button {
+  color: #1890ff;
+}
+
+.delete-button {
+  color: #ff4d4f;
+}
+
+.save-button {
+  background-color: #1890ff;
+}
+
+.cancel-button {
+  border-color: #d9d9d9;
+}

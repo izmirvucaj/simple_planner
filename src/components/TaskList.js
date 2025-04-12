@@ -1,38 +1,64 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./TaskList.css"; // Stil dosyasını ekledik
+import "./TaskList.css";
 
 function TaskList() {
-  const [tasks, setTasks] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Backend'den görevleri çekme
-    axios
-      .get("http://localhost:5001/tasks")
-      .then((response) => {
-        // Veriyi düzenle
-        const updatedTasks = response.data.map((task) => ({
-          ...task,
-          completed: task.completed === 1, // 0 veya 1'den boolean'a dönüşüm
-        }));
-        setTasks(updatedTasks); // Veriyi state'e al
-      })
-      .catch((error) => {
-        console.error("Error fetching tasks:", error);
-      });
+    const fetchTodayNotes = () => {
+      axios.get("http://localhost:5001/tasks")
+        .then((response) => {
+          const today = new Date();
+          // Get date in local timezone (not UTC)
+          const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+          
+          // Filter notes for today
+          const todayNotes = response.data
+            .filter(task => {
+              // Parse the task date in local timezone
+              const taskDate = new Date(task.due_date);
+              const taskDateStr = `${taskDate.getFullYear()}-${String(taskDate.getMonth() + 1).padStart(2, '0')}-${String(taskDate.getDate()).padStart(2, '0')}`;
+              return taskDateStr === todayStr && task.note;
+            })
+            .map(task => ({
+              id: task.id,
+              content: task.note,
+              date: task.due_date
+            }));
+
+          setNotes(todayNotes);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching tasks:", error);
+          setLoading(false);
+        });
+    };
+
+    fetchTodayNotes();
   }, []);
 
   return (
     <div className="task-list">
-      <h2>Bugünün Görevleri</h2>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id} className={task.completed ? "completed" : ""}>
-            <strong>{task.title}</strong>
-            {task.note && <p className="note">{task.note}</p>} {/* Notu göster */}
-          </li>
-        ))}
-      </ul>
+      <h2>Bugünün Notları</h2>
+      
+      {loading ? (
+        <p>Notlar yükleniyor...</p>
+      ) : notes.length === 0 ? (
+        <p>Bugün için kayıtlı not bulunamadı</p>
+      ) : (
+        <ul>
+          {notes.map((note) => (
+            <li key={note.id} className="note-item">
+              <div className="note-content">
+                {note.content}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
