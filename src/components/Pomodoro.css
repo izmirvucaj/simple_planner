@@ -1,0 +1,172 @@
+
+:root {
+    --work-color: #ff4d4f;
+    --short-break-color: #1890ff;
+    --long-break-color: #52c41a;
+    --primary-bg: #f5f5f5;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --secondary-text: #666;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pomodoro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--primary-bg);
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .pomodoro-card {
+    width: 100%;
+    max-width: 550px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    background-color: var(--card-bg);
+    border: none;
+    margin: 0 auto;
+  }
+  
+  /* Rest of your existing CSS remains the same */
+  .session-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .session-title {
+    color: var(--short-break-color);
+    margin-bottom: 0 !important;
+  }
+  
+  /* ... keep all other existing CSS rules ... */
+  
+  .session-counter {
+    color: var(--secondary-text);
+    font-size: 14px;
+  }
+  
+  .progress-circle {
+    display: block;
+    margin: 0 auto 20px;
+    width: 250px !important;
+    height: 250px !important;
+  }
+  
+  .progress-circle .ant-progress-text {
+    font-size: 2rem !important;
+    font-weight: bold;
+  }
+  
+  .timer-display {
+    font-size: 3rem;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+    color: var(--text-color);
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .control-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 100px;
+  }
+  
+  .main-button {
+    background-color: var(--work-color);
+    border-color: var(--work-color);
+  }
+  
+  .secondary-button {
+    background-color: transparent;
+    color: var(--text-color);
+    border-color: #d9d9d9;
+  }
+  
+  .settings-button {
+    margin-left: auto;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .settings-card {
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: var(--card-bg);
+  }
+  
+  .settings-title {
+    text-align: center;
+    margin-bottom: 20px !important;
+    color: var(--text-color);
+  }
+  
+  .setting-item {
+    margin-bottom: 20px;
+  }
+  
+  .setting-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+  }
+  
+  .duration-slider {
+    width: 100%;
+  }
+  
+  .duration-slider .ant-slider-track {
+    background-color: var(--short-break-color);
+  }
+  
+  .duration-slider:hover .ant-slider-track {
+    background-color: var(--short-break-color) !important;
+  }
+  
+  .apply-settings-button {
+    width: 100%;
+    margin-top: 10px;
+    background-color: var(--short-break-color);
+    border-color: var(--short-break-color);
+  }
+  
+  .break-alert {
+    margin-top: 20px;
+    border-radius: 8px;
+  }
+  
+  @media (max-width: 576px) {
+    .pomodoro-container {
+      padding: 10px;
+    }
+  
+    .progress-circle {
+      width: 200px !important;
+      height: 200px !important;
+    }
+  
+    .timer-display {
+      font-size: 2.5rem;
+    }
+    
+    .control-button {
+      flex: 1 0 40%;
+      margin-bottom: 10px;
+    }
+  }
