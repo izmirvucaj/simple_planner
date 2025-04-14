@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Progress, Typography, Card, Switch, Slider, Alert, notification } from "antd";
+import { Button, Progress, Typography, Card, Slider, Alert, notification } from "antd";
 import { PlayCircleFilled, PauseCircleFilled, RedoOutlined, SettingOutlined } from "@ant-design/icons";
 import "./Pomodoro.css";
 
@@ -120,10 +120,6 @@ const Pomodoro = () => {
           strokeWidth={10}
           className="progress-circle"
         />
-
-        <div className="timer-display">
-          {formatTime(time)}
-        </div>
 
         <div className="controls">
           <Button 

@@ -10,12 +10,12 @@ function Sidebar() {
       <ul className="list-unstyled">
         <li className="sidebar-item p-3 rounded">
           <Link to="/calendar" className="text-white text-decoration-none">
-            📅 Takvim
+            📅 Calendar
           </Link>
         </li>
         <li className="sidebar-item p-3 rounded">
           <Link to="/" className="text-white text-decoration-none">
-            📋 Görevler
+            📋 Notes
           </Link>
         </li>
         <li className="sidebar-item p-3 rounded">
